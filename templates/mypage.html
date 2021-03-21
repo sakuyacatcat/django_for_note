@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Plus IT</title>
+</head>
+<body>
+  <div class="container">
+    <h1 class="username">ユーザー名：{{user.username}}</h1>
+    <div class="history-content">
+      {% for history in histories %}
+        <p>タイトル：{{ history.post.title }}　登録日：{{ history.created_at }}</p>
+      {% endfor %}
+    </div>
+    <div class="like-content">
+      {% for like in likes %}
+      <p>タイトル：{{ like.post.title }}　登録日：{{ like.created_at }}</p>
+      {% endfor %}
+    </div>
+    <div class="recommend-content">
+      {% for post in recommend_posts %}
+      <p>タイトル：{{ post.title }}　登録日：{{ post.created_at }}</p>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>

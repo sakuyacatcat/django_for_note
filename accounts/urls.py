@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Toppage, Create, Login, Logout, Delete
+from .views import Toppage, Create, Login, Logout, Delete, Mypage
 
 urlpatterns = [
     path('', Toppage.as_view(), name='toppage'),
@@ -7,4 +7,5 @@ urlpatterns = [
     path('login/', Login.as_view(), name='login'),
     path('logout/', Logout.as_view(), name='logout'),
     path('delete/', Delete.as_view(), name='delete'),
+    path('mypage/', Mypage.as_view(), name='mypage'),
 ]

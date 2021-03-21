@@ -7,10 +7,35 @@
     <body>
         <div class="p-container">
             <h1 class="p-title">タイトル：{{object.title}}</h1>
+            {% if is_bought %}
             <div class="p-content">
             記事本文：
             {{object.content |safe}}
             </div>
+            <form action="{% url 'like' object.pk %}" method="get">
+                <button type="submit" name="button">
+                    {% if like %}
+                    お気に入り解除
+                    {% else %}
+                    お気に入り追加
+                    {% endif %}
+                </button>
+                {% csrf_token %}
+            </form>
+            {% else %}
+            <p>記事を購入後、再度ページを開いてください</p>
+            <p>記事はログイン後、このページの購入用ボタンから購入できます</p>
+            {% endif %}
+            <!-- 購入ボタン・フォームの作成 -->
+            {% if user.is_authenticated %}
+            {% if not is_bought %}
+            <form action="{% url 'post_detail' object.pk %}" method="POST">
+                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="{{ public_key }}" data-amount="{{ object.price }}" data-name="有料記事" data-description="{{ object.title }}" data-image="https://stripe.com/img/documentation/checkout/marketplace.png" data-locale="ja" data-currency="jpy" data-email="{{ user.email }}">
+                </script>
+                {% csrf_token %}
+            </form>
+            {% endif %}
+            {% endif %}
         </div>
     </body>
 </html>
