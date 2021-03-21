@@ -138,3 +138,6 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 #         'allowedContent': True,
 #     },
 # }
+
+STRIPE_PUBLIC_KEY = 'pk_test_51IWdv5BZpD8tJDAPvc68mcrXZ7dzxyikBmY9UcZ6Mox5ummpQx5RQFoMweadeLrQyUiMRjJbTP4UPhGyGvU7Sn5d005TkbBUjM'
+STRIPE_SECRET_KEY = 'sk_test_51IWdv5BZpD8tJDAP2Lmt8gnkqdkPiY1bXztC63uAFmeN98ErUJQC1nXGaP8ZWxVr48lW0ubXd7wdO4TDXMHd5ADt00pKPTaPM5'

@@ -9,6 +9,13 @@ from .forms import CreateForm, LoginForm
 
 from django.contrib.auth import login as auth_login, logout as auth_logout
 
+from posts.models import PostModel, Category, Like, History
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.db.models import Q
+from itertools import chain
+
+
 # Create your views here.
 
 
@@ -74,3 +81,30 @@ class Delete(View):
         user = request.user
         user.delete()
         return redirect('toppage')
+
+
+@method_decorator(login_required(login_url='/accounts/login/'), name='dispatch')
+class Mypage(View):
+    model = CustomUser
+
+    def get(self, request, *args, **kwargs):
+        # 1/14　髙木更新　Like、Historyをモデルに変更により、context作成のアルゴリズム変更
+        likes = Like.objects.filter(user=request.user).order_by('-created_at')
+        histories = History.objects.filter(
+            user=request.user).order_by('-created_at')
+        recommend_posts = PostModel.objects.none()
+        cats = []
+        histories_for_recommend = histories.order_by('-created_at')[:3]
+
+        for history in histories_for_recommend:
+            cat = history.post.category
+            cats.append(cat)
+        cats_unique = list(set(cats))
+
+        # 12/30　recommend_postsのクエリセットにカテゴリーから取得したオススメ記事のクエリセットを結合(chain関数　インポート必要)
+        for cat in cats_unique:
+            posts = PostModel.objects.filter(
+                category=cat).order_by('-created_at')[:3]
+            recommend_posts = chain(recommend_posts, posts)
+
+        return render(request, 'mypage.html', {'likes': likes, 'histories': histories, 'recommend_posts': recommend_posts})
