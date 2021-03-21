@@ -9,3 +9,14 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+
+
+class PremiumCustomer(models.Model):
+    user = models.ForeignKey(
+        CustomUser, verbose_name='user', related_name='user', on_delete=models.CASCADE)
+    stripeCustomerId = models.CharField(max_length=255)
+    stripeSubscriptionId = models.CharField(max_length=255)
+    is_continued = models.BooleanField(verbose_name='次月継続', default=True)
+
+    def __str__(self):
+        return self.user.username
