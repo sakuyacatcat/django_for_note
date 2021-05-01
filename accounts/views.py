@@ -25,7 +25,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 # Create your views here.
 
-
+# aaa
 class Toppage(TemplateView):
     template_name = 'toppage.html'
 
